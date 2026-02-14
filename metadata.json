@@ -1,0 +1,7 @@
+{
+  "name": "Daily Doodles",
+  "description": "A mindful daily journaling application with AI-powered prompts and sentiment insights to help you reflect and grow.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
