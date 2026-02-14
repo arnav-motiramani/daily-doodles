@@ -1,6 +1,5 @@
-
-import { supabase } from './supabaseClient';
-import { User, JournalEntry } from '../types';
+import { supabase } from './supabaseClient.ts';
+import { User, JournalEntry } from '../types.ts';
 
 export const storageService = {
   // Auth methods
