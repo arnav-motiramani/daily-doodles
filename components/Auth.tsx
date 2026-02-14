@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { storageService } from '../services/storageService.ts';
-import { User } from '../types.ts';
+import { storageService } from '../services/storageService';
+import { User } from '../types';
 
 interface AuthProps {
   mode: 'login' | 'signup';
@@ -119,6 +119,4 @@ const Auth: React.FC<AuthProps> = ({ mode, onAuthSuccess, onSwitch }) => {
       </div>
     </div>
   );
-};
-
-export default Auth;
+}; export default Auth;

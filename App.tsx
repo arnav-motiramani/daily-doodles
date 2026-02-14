@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, User, JournalEntry } from './types.ts';
-import { storageService } from './services/storageService.ts';
-import { supabase } from './services/supabaseClient.ts';
-import Layout from './components/Layout.tsx';
-import Dashboard from './components/Dashboard.tsx';
-import Auth from './components/Auth.tsx';
-import Editor from './components/Editor.tsx';
+import { View, User, JournalEntry } from './types';
+import { storageService } from './services/storageService';
+import { supabase } from './services/supabaseClient';
+import Layout from './components/Layout';
+import Dashboard from './components/Dashboard';
+import Auth from './components/Auth';
+import Editor from './components/Editor';
 
 const App: React.FC = () => {
   const [view, setView] = useState<View>('home');
