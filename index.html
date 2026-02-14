@@ -36,11 +36,12 @@
     }
   </style>
   <script>
-    // Shim process for browser compatibility
+    // Robust process shim for browser environments
     window.process = { 
       env: { API_KEY: "" },
       nextTick: (cb) => setTimeout(cb, 0),
-      browser: true
+      browser: true,
+      version: ''
     };
   </script>
 <script type="importmap">
@@ -59,8 +60,11 @@
 </head>
 <body class="bg-white text-slate-900 min-h-screen">
   <div id="root"></div>
-  <!-- esm.sh/run handles the transpilation of .tsx files directly in the browser, 
-       allowing the app to run on static hosts like Netlify without a build step. -->
+  
+  <!-- The loader script must come before the entry point or handle the discovery -->
   <script type="module" src="https://esm.sh/run"></script>
+  
+  <!-- Explicitly mark the entry point as TSX so esm.sh/run knows how to handle it -->
+  <script type="text/tsx" src="./index.tsx"></script>
 </body>
 </html>
