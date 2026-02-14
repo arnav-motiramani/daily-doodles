@@ -12,6 +12,8 @@
     body {
       font-family: 'Inter', sans-serif;
       transition: background-color 0.2s ease;
+      margin: 0;
+      padding: 0;
     }
     .font-serif {
       font-family: 'Playfair Display', serif;
@@ -23,6 +25,7 @@
       from { opacity: 0; transform: translateY(5px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    /* This shows only while the JS is loading/transpiling */
     #root:empty::after {
       content: 'Waking up your journal...';
       position: absolute;
@@ -36,24 +39,24 @@
     }
   </style>
   <script>
-    // Robust process shim for browser environments
+    // Robust shims for browser compatibility with Node-centric SDKs
     window.process = { 
       env: { API_KEY: "" },
       nextTick: (cb) => setTimeout(cb, 0),
       browser: true,
-      version: ''
+      version: '',
+      cwd: () => '/'
     };
+    window.global = window;
   </script>
 <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@19.0.0",
-    "react/": "https://esm.sh/react@19.0.0/",
-    "react-dom": "https://esm.sh/react-dom@19.0.0",
-    "react-dom/": "https://esm.sh/react-dom@19.0.0/",
-    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
-    "@google/genai": "https://esm.sh/@google/genai@1.41.0",
-    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.48.1"
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.41.0",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.95.3"
   }
 }
 </script>
@@ -61,10 +64,26 @@
 <body class="bg-white text-slate-900 min-h-screen">
   <div id="root"></div>
   
-  <!-- The loader script must come before the entry point or handle the discovery -->
+  <!-- esm.sh/run handles the discovery and transpilation of scripts with type="text/tsx" -->
   <script type="module" src="https://esm.sh/run"></script>
-  
-  <!-- Explicitly mark the entry point as TSX so esm.sh/run knows how to handle it -->
-  <script type="text/tsx" src="./index.tsx"></script>
+
+  <!-- Mounting logic placed directly in the HTML to ensure immediate discovery by the loader -->
+  <script type="text/tsx">
+    import React from 'react';
+    import { createRoot } from 'react-dom/client';
+    import App from './App.tsx';
+
+    const container = document.getElementById('root');
+    if (container) {
+      const root = createRoot(container);
+      root.render(
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      );
+    } else {
+      console.error("Critical Error: Root element not found.");
+    }
+  </script>
 </body>
 </html>
