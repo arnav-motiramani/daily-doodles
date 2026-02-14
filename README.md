@@ -3,8 +3,8 @@
 
 > A production-ready web application built with TypeScript, SQL, and Supabase, designed to help users upload and manage daily creative doodles.
 
-🌐 **Live Demo:** _[Add Netlify Link Here]_  
-📂 **Repository:** _[Add GitHub Repo Link Here]_
+🌐 **Live Demo:** daily-doodles.netlify.app 
+
 
 ---
 
@@ -132,6 +132,4 @@ This project showcases my ability to:
 
 ---
 
-## 📄 License
 
-MIT License
