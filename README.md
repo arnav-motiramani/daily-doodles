@@ -1,20 +1,137 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# 🎨 DAILY DOODLES  
+### A Full-Stack Creative Tracking Application
 
-# Run and deploy your AI Studio app
+> A production-ready web application built with TypeScript, SQL, and Supabase, designed to help users upload and manage daily creative doodles.
 
-This contains everything you need to run your app locally.
+🌐 **Live Demo:** _[Add Netlify Link Here]_  
+📂 **Repository:** _[Add GitHub Repo Link Here]_
 
-View your app in AI Studio: https://ai.studio/apps/drive/1a4T-A4d0sIHDBtFD9b2Ky43TUQ5PGRky
+---
 
-## Run Locally
+## 📌 Project Overview
 
-**Prerequisites:**  Node.js
+**DAILY DOODLES** is a full-stack web application that enables users to upload, store, and manage daily artwork entries.
 
+This project demonstrates:
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+- Strong frontend fundamentals using **TypeScript & HTML**
+- Backend integration using **Supabase**
+- SQL database design & management
+- Environment variable configuration
+- Cloud deployment via Netlify
+- API integration & asynchronous data handling
+
+---
+
+## 🏗 System Architecture
+
+```
+Frontend (TypeScript + HTML)
+        │
+        │ REST API Calls
+        ▼
+Supabase Backend
+        │
+        ▼
+PostgreSQL (SQL Database)
+```
+
+---
+
+## 🛠 Tech Stack
+
+### 🔹 Frontend
+- **TypeScript** (Strong typing, scalable structure)
+- **HTML5**
+- UI structured with assistance from Google Studio
+
+### 🔹 Backend
+- **Supabase** (Authentication, database, API layer)
+- **PostgreSQL (SQL)**
+
+### 🔹 Deployment
+- **Netlify**
+- CI/CD via GitHub integration
+
+---
+
+## ✨ Key Features
+
+- Upload and store doodle entries
+- SQL-powered data persistence
+- Supabase client integration
+- Secure environment variable handling
+- Fully deployed production build
+- Clean and modular TypeScript structure
+
+---
+
+## 🧠 Technical Highlights (What This Demonstrates)
+
+- Writing type-safe frontend logic with TypeScript
+- Handling asynchronous API calls
+- Designing relational database tables
+- Integrating third-party backend services
+- Managing environment variables securely
+- Deploying full-stack apps to production
+- Structuring maintainable project architecture
+
+---
+
+## 🗄 Sample Database Schema
+
+```sql
+CREATE TABLE doodles (
+  id SERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  image_url TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+---
+
+## 🚀 Running Locally
+
+```bash
+git clone https://github.com/your-username/daily-doodles.git
+cd daily-doodles
+npm install
+npm run dev
+```
+
+Create a `.env` file:
+
+```
+VITE_SUPABASE_URL=your_project_url
+VITE_SUPABASE_ANON_KEY=your_anon_key
+```
+
+---
+
+## 📈 Future Improvements
+
+- User authentication & authorization
+- Image storage optimization
+- Search & filter functionality
+- Pagination for scalability
+- Responsive UI improvements
+- Unit & integration testing
+
+---
+
+## 💼 Why This Project Matters
+
+This project showcases my ability to:
+
+- Build and deploy a complete full-stack application
+- Work with real databases (SQL/PostgreSQL)
+- Integrate backend-as-a-service platforms
+- Structure scalable frontend code
+- Move from idea → development → deployment
+
+---
+
+## 📄 License
+
+MIT License
