@@ -14,6 +14,7 @@
       transition: background-color 0.2s ease;
       margin: 0;
       padding: 0;
+      background-color: #fcfcfd;
     }
     .font-serif {
       font-family: 'Playfair Display', serif;
@@ -25,6 +26,7 @@
       from { opacity: 0; transform: translateY(5px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    /* This shows only while the JS is loading/transpiling */
     #root:empty::after {
       content: 'Waking up your journal...';
       position: absolute;
@@ -38,8 +40,11 @@
     }
   </style>
   <script>
+    // Global process shim with your provided API key
     window.process = { 
-      env: { API_KEY: "" },
+      env: { 
+        API_KEY: "AIzaSyD_XjVV8UluYc2aAE9G-OAA27xQmLuZy6k" 
+      },
       nextTick: (cb) => setTimeout(cb, 0),
       browser: true,
       version: '',
@@ -63,21 +68,9 @@
 </head>
 <body class="bg-white text-slate-900 min-h-screen">
   <div id="root"></div>
+  
+  <!-- esm.sh/run handles transpilation. We use a single entry script for reliability. -->
   <script type="module" src="https://esm.sh/run"></script>
-  <script type="text/tsx">
-    import React from 'react';
-    import { createRoot } from 'react-dom/client';
-    import App from './App.tsx';
-
-    const container = document.getElementById('root');
-    if (container) {
-      const root = createRoot(container);
-      root.render(
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>
-      );
-    }
-  </script>
+  <script type="text/tsx" src="./index.tsx"></script>
 </body>
 </html>
