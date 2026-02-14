@@ -35,6 +35,7 @@ Supabase Backend
         ▼
 PostgreSQL (SQL Database)
 ```
+![image alt](https://github.com/arnav-motiramani/daily-doodles/blob/bf7c4e061ed2db9fc55c5647754d697caa1ae445/Screenshot%202026-02-14%20163644.png)
 
 ---
 
@@ -44,14 +45,19 @@ PostgreSQL (SQL Database)
 - **TypeScript** (Strong typing, scalable structure)
 - **HTML5**
 - UI structured with assistance from Google Studio
+![image alt](https://github.com/arnav-motiramani/daily-doodles/blob/bf7c4e061ed2db9fc55c5647754d697caa1ae445/Screenshot%202026-02-14%20163444.png)
+![image alt](https://github.com/arnav-motiramani/daily-doodles/blob/bf7c4e061ed2db9fc55c5647754d697caa1ae445/Screenshot%202026-02-14%20163400.png)
+
 
 ### 🔹 Backend
 - **Supabase** (Authentication, database, API layer)
 - **PostgreSQL (SQL)**
+![image alt](https://github.com/arnav-motiramani/daily-doodles/blob/bf7c4e061ed2db9fc55c5647754d697caa1ae445/Screenshot%202026-02-14%20163606.png)
 
 ### 🔹 Deployment
 - **Netlify**
 - CI/CD via GitHub integration
+![image alt](https://github.com/arnav-motiramani/daily-doodles/blob/bf7c4e061ed2db9fc55c5647754d697caa1ae445/Screenshot%202026-02-14%20163546.png)
 
 ---
 
