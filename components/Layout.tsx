@@ -1,5 +1,5 @@
 import React from 'react';
-import { User } from '../types';
+import { User } from '../types.ts';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,7 +11,7 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children, user, onLogout, onNavigate }) => {
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="nav-header sticky top-0 z-50 px-4 py-4 md:px-8 flex justify-between items-center">
+      <header className="sticky top-0 z-50 px-4 py-4 md:px-8 flex justify-between items-center bg-white/80 backdrop-blur-md border-b border-slate-50">
         <div 
           className="flex items-center space-x-2 cursor-pointer"
           onClick={() => onNavigate(user ? 'dashboard' : 'home')}
@@ -19,7 +19,7 @@ const Layout: React.FC<LayoutProps> = ({ children, user, onLogout, onNavigate })
           <div className="w-8 h-8 bg-indigo-600 rounded-md flex items-center justify-center text-white font-bold">
             D
           </div>
-          <span className="text-xl font-bold tracking-tight">Daily Doodles</span>
+          <span className="text-xl font-bold tracking-tight text-slate-800">Daily Doodles</span>
         </div>
         
         <nav className="flex items-center space-x-4">
@@ -29,7 +29,7 @@ const Layout: React.FC<LayoutProps> = ({ children, user, onLogout, onNavigate })
                 Hi, <span className="font-semibold">{user.name}</span>
               </span>
               <button 
-                onClick={onLogout}
+                onClick={handleLogout}
                 className="text-sm font-medium text-slate-600 hover:text-red-500 transition-colors"
               >
                 Logout
@@ -58,6 +58,10 @@ const Layout: React.FC<LayoutProps> = ({ children, user, onLogout, onNavigate })
       </footer>
     </div>
   );
+
+  function handleLogout() {
+    onLogout();
+  }
 };
 
 export default Layout;

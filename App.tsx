@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, User, JournalEntry } from './types';
-import { storageService } from './services/storageService';
-import { supabase } from './services/supabaseClient';
-import Layout from './components/Layout';
-import Dashboard from './components/Dashboard';
-import Auth from './components/Auth';
-import Editor from './components/Editor';
+import { View, User, JournalEntry } from './types.ts';
+import { storageService } from './services/storageService.ts';
+import { supabase } from './services/supabaseClient.ts';
+import Layout from './components/Layout.tsx';
+import Dashboard from './components/Dashboard.tsx';
+import Auth from './components/Auth.tsx';
+import Editor from './components/Editor.tsx';
 
 const App: React.FC = () => {
   const [view, setView] = useState<View>('home');
@@ -15,12 +15,17 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const checkUser = async () => {
-      const user = await storageService.getCurrentUser();
-      if (user) {
-        setCurrentUser(user);
-        setView('dashboard');
+      try {
+        const user = await storageService.getCurrentUser();
+        if (user) {
+          setCurrentUser(user);
+          setView('dashboard');
+        }
+      } catch (err) {
+        console.error("User check failed:", err);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
     checkUser();
 
@@ -94,9 +99,9 @@ const App: React.FC = () => {
             
             <div className="mt-20 w-full max-w-4xl bg-white p-2 rounded-2xl shadow-2xl border border-slate-100 overflow-hidden">
                <img 
-                 src="https://picsum.photos/seed/journal/1200/600" 
+                 src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&q=80&w=1200" 
                  alt="Journal preview" 
-                 className="w-full h-auto rounded-xl object-cover grayscale opacity-80"
+                 className="w-full h-[400px] rounded-xl object-cover grayscale opacity-80"
                />
             </div>
           </div>

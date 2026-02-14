@@ -1,6 +1,5 @@
-
-import { supabase } from './supabaseClient';
-import { User, JournalEntry } from '../types';
+import { supabase } from './supabaseClient.ts';
+import { User, JournalEntry } from '../types.ts';
 
 export const storageService = {
   // Auth methods
@@ -13,14 +12,12 @@ export const storageService = {
     if (authError) throw authError;
     if (!authData.user) throw new Error('Sign up failed');
 
-    // Create a profile record for the name using insert specifically for first-time setup
     const { error: profileError } = await supabase
       .from('profiles')
       .insert({ id: authData.user.id, name });
 
     if (profileError) {
       console.error('Error creating profile during signup:', profileError);
-      // Fallback to upsert if the record somehow already exists
       await supabase.from('profiles').upsert({ id: authData.user.id, name });
     }
 

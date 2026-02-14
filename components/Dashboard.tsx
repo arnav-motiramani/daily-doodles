@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { JournalEntry, User } from '../types';
-import { storageService } from '../services/storageService';
-import { generateJournalPrompt } from '../services/geminiService';
+import { JournalEntry, User } from '../types.ts';
+import { storageService } from '../services/storageService.ts';
+import { generateJournalPrompt } from '../services/geminiService.ts';
 
 interface DashboardProps {
   user: User;
@@ -49,7 +49,6 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onEdit, onDelete }) => {
     });
   };
 
-  // Calculate some simple "Stats"
   const streak = entries.length > 0 ? entries.length : 0;
   const commonMood = entries.length > 0 
     ? entries.reduce((acc, curr) => {
@@ -65,7 +64,6 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onEdit, onDelete }) => {
 
   return (
     <div className="space-y-10 animate-fadeIn">
-      {/* Header & Prompt Section */}
       <section className="bg-gradient-to-br from-indigo-50/50 to-white p-8 md:p-10 rounded-[2.5rem] border border-indigo-100/50 shadow-sm relative overflow-hidden">
         <div className="absolute top-0 right-0 p-8 opacity-10">
           <svg width="120" height="120" viewBox="0 0 24 24" fill="currentColor" className="text-indigo-600">
@@ -101,7 +99,6 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onEdit, onDelete }) => {
         </div>
       </section>
 
-      {/* Stats Summary */}
       {entries.length > 0 && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-2">
           <div className="bg-slate-50/50 p-6 rounded-3xl border border-slate-100">
@@ -123,7 +120,6 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onEdit, onDelete }) => {
         </div>
       )}
 
-      {/* Entry List */}
       <div className="space-y-6">
         <div className="flex justify-between items-center px-2">
           <h3 className="text-xl font-bold text-slate-800 font-serif">Your Journey</h3>

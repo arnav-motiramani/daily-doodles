@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { JournalEntry, User } from '../types';
-import { storageService } from '../services/storageService';
-import { analyzeEntry, connectTranscriptionSession, createAudioBlob } from '../services/geminiService';
+import { JournalEntry, User } from '../types.ts';
+import { storageService } from '../services/storageService.ts';
+import { analyzeEntry, connectTranscriptionSession, createAudioBlob } from '../services/geminiService.ts';
 
 interface EditorProps {
   user: User;
@@ -18,7 +18,6 @@ const Editor: React.FC<EditorProps> = ({ user, entry, onSave, onCancel }) => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   
-  // Voice State
   const [isRecording, setIsRecording] = useState(false);
   const audioContextRef = useRef<AudioContext | null>(null);
   const sessionRef = useRef<any>(null);
@@ -97,7 +96,6 @@ const Editor: React.FC<EditorProps> = ({ user, entry, onSave, onCancel }) => {
       let currentMood = mood;
       let currentInsight = insight;
       
-      // Auto-analyze if user hasn't manually clicked analysis
       if (!currentMood || !currentInsight) {
         const result = await analyzeEntry(content);
         currentMood = result.mood;
@@ -128,7 +126,6 @@ const Editor: React.FC<EditorProps> = ({ user, entry, onSave, onCancel }) => {
 
   return (
     <div className="max-w-3xl mx-auto space-y-10 animate-fadeIn pb-32">
-      {/* Header Controls */}
       <div className="flex justify-between items-center mb-8">
         <button onClick={onCancel} className="text-slate-400 hover:text-indigo-600 flex items-center space-x-2 transition-all group">
           <div className="w-8 h-8 rounded-full flex items-center justify-center bg-slate-50 group-hover:bg-indigo-50 transition-colors">
@@ -146,7 +143,6 @@ const Editor: React.FC<EditorProps> = ({ user, entry, onSave, onCancel }) => {
         </div>
       </div>
 
-      {/* Editor Body */}
       <div className="space-y-8">
         <input 
           type="text"
@@ -175,7 +171,6 @@ const Editor: React.FC<EditorProps> = ({ user, entry, onSave, onCancel }) => {
             className="w-full h-full min-h-[400px] text-2xl text-slate-700 leading-relaxed placeholder-slate-100 focus:outline-none resize-none bg-transparent selection:bg-indigo-50 font-serif"
           />
           
-          {/* Floating Voice Toggle */}
           <button 
             onClick={toggleVoiceInput}
             className={`absolute bottom-0 right-0 p-5 rounded-[2rem] shadow-2xl transition-all transform hover:scale-105 active:scale-95 flex items-center space-x-3 ${isRecording ? 'bg-red-500 text-white' : 'bg-white text-slate-400 border border-slate-100 hover:text-indigo-600'}`}
@@ -187,7 +182,6 @@ const Editor: React.FC<EditorProps> = ({ user, entry, onSave, onCancel }) => {
           </button>
         </div>
 
-        {/* Insight Section */}
         {insight && (
           <div className="bg-slate-50/50 p-8 rounded-[2rem] border border-slate-100 animate-fadeIn transition-all">
             <div className="flex items-center space-x-3 mb-4">
@@ -199,7 +193,6 @@ const Editor: React.FC<EditorProps> = ({ user, entry, onSave, onCancel }) => {
         )}
       </div>
 
-      {/* Action Footer */}
       <div className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md py-6 border-t border-slate-100 flex justify-center z-40">
         <div className="flex space-x-4 max-w-lg w-full px-4">
           <button 

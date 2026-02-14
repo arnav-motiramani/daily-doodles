@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { storageService } from '../services/storageService';
-import { User } from '../types';
+import { storageService } from '../services/storageService.ts';
+import { User } from '../types.ts';
 
 interface AuthProps {
   mode: 'login' | 'signup';
@@ -46,7 +46,7 @@ const Auth: React.FC<AuthProps> = ({ mode, onAuthSuccess, onSwitch }) => {
   };
 
   return (
-    <div className="max-w-md mx-auto py-12 px-6 bg-white rounded-3xl shadow-xl border border-slate-100 animate-slideUp">
+    <div className="max-w-md mx-auto py-12 px-6 bg-white rounded-3xl shadow-xl border border-slate-100 animate-fadeIn">
       <div className="text-center mb-10">
         <h2 className="text-3xl font-serif font-bold text-slate-800 mb-2">
           {mode === 'login' ? 'Welcome Back' : 'Join Daily Doodles'}
