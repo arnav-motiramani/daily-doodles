@@ -26,10 +26,15 @@ const Editor: React.FC<EditorProps> = ({ user, entry, onSave, onCancel }) => {
   const handleAnalyze = async () => {
     if (!content.trim()) return;
     setIsAnalyzing(true);
-    const result = await analyzeEntry(content);
-    setMood(result.mood);
-    setInsight(result.insight);
-    setIsAnalyzing(false);
+    try {
+      const result = await analyzeEntry(content);
+      setMood(result.mood);
+      setInsight(result.insight);
+    } catch (err) {
+      console.error("Analysis failed:", err);
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   const toggleVoiceInput = async () => {
@@ -89,32 +94,43 @@ const Editor: React.FC<EditorProps> = ({ user, entry, onSave, onCancel }) => {
   };
 
   const handleSave = async () => {
-    if (!content.trim()) return;
+    const trimmedContent = content.trim();
+    if (!trimmedContent) {
+      alert("Please write something before saving.");
+      return;
+    }
+
     setIsSaving(true);
     
     try {
       let currentMood = mood;
       let currentInsight = insight;
       
+      // If we don't have AI analysis yet, try to get it once on save
       if (!currentMood || !currentInsight) {
-        const result = await analyzeEntry(content);
-        currentMood = result.mood;
-        currentInsight = result.insight;
+        try {
+          const result = await analyzeEntry(trimmedContent);
+          currentMood = result.mood;
+          currentInsight = result.insight;
+        } catch (e) {
+          console.warn("Auto-analysis failed on save, continuing without it.");
+        }
       }
 
       await storageService.saveEntry({
         id: entry?.id,
         userId: user.id,
         date: entry?.date || new Date().toISOString(),
-        title: title || "Morning Reflection",
-        content,
-        mood: currentMood,
-        aiInsight: currentInsight
+        title: title.trim() || "Reflection",
+        content: trimmedContent,
+        mood: currentMood || "Thoughtful",
+        aiInsight: currentInsight || "Every word written is a step toward clarity."
       });
+      
       onSave();
-    } catch (error) {
-      console.error('Save failed:', error);
-      alert('Failed to save entry. Please try again.');
+    } catch (error: any) {
+      console.error('Final Save Failure:', error);
+      alert(`Failed to save: ${error.message || 'Database error'}. Check the console for details.`);
     } finally {
       setIsSaving(false);
     }
@@ -138,7 +154,7 @@ const Editor: React.FC<EditorProps> = ({ user, entry, onSave, onCancel }) => {
         <div className="flex items-center space-x-2">
            <div className={`w-2 h-2 rounded-full ${isRecording ? 'bg-red-500 animate-pulse' : 'bg-green-500'}`}></div>
            <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">
-            {isRecording ? "Listening..." : "Autosave Ready"}
+            {isRecording ? "Listening..." : "Sync Ready"}
           </span>
         </div>
       </div>
@@ -148,7 +164,7 @@ const Editor: React.FC<EditorProps> = ({ user, entry, onSave, onCancel }) => {
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Untitled Page"
+          placeholder="Give this moment a name..."
           className="w-full text-5xl font-serif font-bold text-slate-800 placeholder-slate-100 focus:outline-none bg-transparent border-none p-0"
         />
         
@@ -173,6 +189,7 @@ const Editor: React.FC<EditorProps> = ({ user, entry, onSave, onCancel }) => {
           
           <button 
             onClick={toggleVoiceInput}
+            disabled={isSaving}
             className={`absolute bottom-0 right-0 p-5 rounded-[2rem] shadow-2xl transition-all transform hover:scale-105 active:scale-95 flex items-center space-x-3 ${isRecording ? 'bg-red-500 text-white' : 'bg-white text-slate-400 border border-slate-100 hover:text-indigo-600'}`}
           >
             {isRecording && <span className="text-xs font-bold uppercase tracking-widest">Recording</span>}
@@ -197,17 +214,17 @@ const Editor: React.FC<EditorProps> = ({ user, entry, onSave, onCancel }) => {
         <div className="flex space-x-4 max-w-lg w-full px-4">
           <button 
             onClick={handleAnalyze}
-            disabled={isAnalyzing || !content || isSaving}
+            disabled={isAnalyzing || !content.trim() || isSaving}
             className="flex-1 py-4 bg-white text-indigo-600 border border-indigo-100 rounded-2xl font-bold text-sm hover:bg-indigo-50 transition shadow-sm disabled:opacity-50"
           >
             {isAnalyzing ? "Analyzing..." : "Refresh Insights"}
           </button>
           <button 
             onClick={handleSave}
-            disabled={isSaving || !content}
+            disabled={isSaving || !content.trim()}
             className="flex-[2] py-4 bg-indigo-600 text-white rounded-2xl font-bold text-sm hover:bg-indigo-700 shadow-xl shadow-indigo-100 transition disabled:opacity-50"
           >
-            {isSaving ? "Preserving Moment..." : "Save Reflection"}
+            {isSaving ? "Saving..." : "Keep Reflection"}
           </button>
         </div>
       </div>

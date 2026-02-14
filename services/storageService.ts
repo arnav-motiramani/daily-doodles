@@ -81,7 +81,7 @@ export const storageService = {
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching entries:', error);
+      console.error('Supabase getEntries error:', error);
       return [];
     }
 
@@ -100,28 +100,44 @@ export const storageService = {
   async saveEntry(entry: Partial<JournalEntry> & { userId: string }) {
     const payload = {
       user_id: entry.userId,
-      title: entry.title,
+      title: entry.title || 'Untitled Reflection',
       content: entry.content,
       mood: entry.mood,
       ai_insight: entry.aiInsight,
       created_at: entry.date || new Date().toISOString()
     };
 
-    if (entry.id && !entry.id.includes('temp')) {
-      const { data, error } = await supabase
-        .from('entries')
-        .update(payload)
-        .eq('id', entry.id)
-        .select();
-      if (error) throw error;
-      return data;
-    } else {
-      const { data, error } = await supabase
-        .from('entries')
-        .insert([payload])
-        .select();
-      if (error) throw error;
-      return data;
+    try {
+      // Check if it's an update (exists and not a temporary local ID)
+      const isUpdate = entry.id && typeof entry.id === 'string' && !entry.id.includes('temp');
+
+      if (isUpdate) {
+        const { data, error } = await supabase
+          .from('entries')
+          .update(payload)
+          .eq('id', entry.id)
+          .select();
+        
+        if (error) {
+          console.error('Supabase update error:', error);
+          throw error;
+        }
+        return data;
+      } else {
+        const { data, error } = await supabase
+          .from('entries')
+          .insert([payload])
+          .select();
+        
+        if (error) {
+          console.error('Supabase insert error:', error);
+          throw error;
+        }
+        return data;
+      }
+    } catch (err) {
+      console.error('Storage Service Save Error:', err);
+      throw err;
     }
   },
 
@@ -130,6 +146,9 @@ export const storageService = {
       .from('entries')
       .delete()
       .eq('id', entryId);
-    if (error) throw error;
+    if (error) {
+      console.error('Supabase delete error:', error);
+      throw error;
+    }
   }
 };
